@@ -1,0 +1,31 @@
+# Build output
+build/
+bin/
+target/
+out/
+
+# Eclipse
+.metadata/
+.settings/
+.classpath
+.project
+*.launch
+
+# IntelliJ
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+logs/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Misc
+*.bak
+*.tmp
