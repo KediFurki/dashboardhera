@@ -107,7 +107,10 @@
 			session.setAttribute("DBSystemProperties", "CCC");
 			session.setAttribute("Environment", "CCC");
 			session.setAttribute("OBLEAD-BCK", true);
-			response.sendRedirect("MainOBLEAD.jsp");
+			session.setAttribute("CCC-MAIL", false);
+			session.setAttribute("CCC-MAIL-RT", false);
+			session.setAttribute("CCC-INFOMART", false);
+			response.sendRedirect("MainCCC.jsp");
 			break;
 
 		//	****	CCT-F	**************************** //
