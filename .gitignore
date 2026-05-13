@@ -29,3 +29,4 @@ Thumbs.db
 # Misc
 *.bak
 *.tmp
+.svn/ 
