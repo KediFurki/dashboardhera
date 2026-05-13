@@ -293,8 +293,8 @@
 			type : 'POST',
 			data : formData,
 			contents: "json",
-			processData: false,  // tell jQuery not to process the data
-			contentType: false,  // tell jQuery not to set contentType
+			processData: false,
+			contentType: false,
 			success : function(result) {
 				var data = JSON.parse(result);
 				if (data.res == "OK") {

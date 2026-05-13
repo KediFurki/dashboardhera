@@ -33,18 +33,8 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Upload servlet per la "Lista Lead OutBound Backoffice" (profilo OUTBOUNDLEAD-BCK).
- *
- * Formato CSV atteso (separatore ';'):
- *   contact_info;Nome_Cognome;Numero_ACT;Processo
- *
- * Per retro-compatibilità il parser accetta righe con 4, 5 oppure 27 colonne;
- * vengono utilizzate solo le prime 4 (le altre vengono ignorate).
- * La colonna Data_Inserimento viene impostata lato DB (GETDATE / default sulla SP).
- */
 @WebServlet("/UploadOutboundListBck")
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 150, // 150 MB
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 150,
 		maxFileSize = 1024 * 1024 * 150,
 		maxRequestSize = 1024 * 1024 * 300)
 public class UploadOutboundListBck extends HttpServlet {
@@ -116,19 +106,15 @@ public class UploadOutboundListBck extends HttpServlet {
 						while ((line = br.readLine()) != null) {
 							if (StringUtils.isBlank(line)) continue;
 							String[] record = line.split(";", -1);
-							// Salta riga di header se la prima colonna è il letterale "contact_info"
 							if (firstLine) {
 								firstLine = false;
 								if (record.length > 0 && "contact_info".equalsIgnoreCase(StringUtils.trim(record[0]))) {
 									continue;
 								}
 							}
-							// Accetta 4, 5 o 27 colonne (retro-compatibilità con vecchi formati).
-							// In tutti i casi usiamo solo le prime 4 colonne.
 							if (record.length == 4 || record.length == 5 || record.length == 27) {
 								records.add(record);
 							} else if (record.length > 4) {
-								// formato non standard ma comunque utilizzabile
 								records.add(record);
 							} else {
 								nRecordScartati++;
@@ -174,8 +160,6 @@ public class UploadOutboundListBck extends HttpServlet {
 					totalTime = endTime - startTime;
 					log.info(session.getId() + " - DB : Inserimento in " + totalTime + " ms");
 					log.info(session.getId() + " - DB : fine inserimento - inseriti: " + nRecordInseriti);
-
-					// JSON Return OK ==================================
 					JSONObject obj = new JSONObject();
 					obj.put("res", "OK");
 					obj.put("read", nRecordLetti);
@@ -186,7 +170,6 @@ public class UploadOutboundListBck extends HttpServlet {
 					response.getOutputStream().print(re);
 				} catch (Exception e) {
 					log.error(session.getId() + " : " + e.getMessage(), e);
-					// JSON Return KO ==================================
 					JSONObject obj = new JSONObject();
 					try {
 						obj.put("res", "KO");
@@ -208,7 +191,6 @@ public class UploadOutboundListBck extends HttpServlet {
 			}
 		} catch (Exception e) {
 			log.error(session.getId() + " : " + e.getMessage(), e);
-			// JSON Return KO ==================================
 			JSONObject obj = new JSONObject();
 			try {
 				obj.put("res", "KO");

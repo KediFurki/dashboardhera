@@ -30,20 +30,14 @@
 <%
 	Logger log = Logger.getLogger("comapp." + this.getClass().getName());
 	log.info(session.getId() + " - ******* new request ***** ");
-	//==	REQUEST PARAMETERS	====
-	//		NONE
-	//==============================
 	Connection conn = null;
 	CallableStatement cstmt = null;
 	ResultSet rs = null;
-	//==	ACTION PARAMETERS	====
 	String action = request.getParameter("action");
 	if (StringUtils.isBlank(action)) {
 		action = "";
 	}
 	String environment = (String)session.getAttribute("Environment");
-	//==============================
-	//==	ACTION START	====
 	log.info(session.getId() + " - action:"+action  );
 	try {
 		Context ctx = new InitialContext();
@@ -65,7 +59,6 @@
 		try { cstmt.close(); } catch (Exception e) {}
 	}
 	if (StringUtils.isNoneBlank(action)) log.info(session.getId() + " -> STOP ACTION");
-	//==	ACTION STOP		====
 %>
 <div class="pagination inline_cmd"></div>
 <table class="center">
@@ -286,8 +279,8 @@
 			type : 'POST',
 			data : formData,
 			contents: "json",
-			processData: false,  // tell jQuery not to process the data
-			contentType: false,  // tell jQuery not to set contentType
+			processData: false,
+			contentType: false,
 			success : function(result) {
 				var data = JSON.parse(result);
 				if (data.res == "OK") {
