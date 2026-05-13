@@ -256,7 +256,19 @@
 	}
 	if (StringUtils.isNoneBlank(action)) log.info(session.getId() + " -> STOP ACTION");
 	//==	ACTION STOP		====
-		
+%>
+<table class="center" style="width:100%;">
+	<tr>
+		<td style="padding:6px 12px; background:#eef3fb; border-bottom:1px solid #ccd;">
+			<b>Dissuasione e CallBack</b> &nbsp;|&nbsp;
+			Servizio selezionato:
+			<span style="color:<%= StringUtils.isBlank(CodIvr) ? "#c00" : "#080" %>; font-weight:bold;">
+				<%= StringUtils.isBlank(CodIvr) ? "NESSUNO" : CodIvr %>
+			</span>
+		</td>
+	</tr>
+</table>
+<%
 	try {			
 		if (StringUtils.isBlank(CodIvr)) {
 %>
@@ -593,6 +605,22 @@
 		}
 	} catch (Exception e) {
 		log.error(session.getId() + " - general: " + e.getMessage(), e);
+%>
+<table class="center" style="width:100%;">
+	<tr>
+		<td style="padding:20px;">
+			<div class="title" style="color:#c00;">
+				Errore durante il caricamento dei parametri Dissuasione/CallBack:
+			</div>
+			<pre style="background:#fee; border:1px solid #fcc; padding:8px; margin-top:8px; white-space:pre-wrap; font-size:12px;"><%= e.getClass().getName() %>: <%= e.getMessage() %></pre>
+			<div style="color:#666; font-size:12px; margin-top:8px;">
+				Controllare i log di Tomcat (sessione: <%= session.getId() %>) per il dettaglio dello stack trace.<br>
+				Cause più frequenti: JNDI datasource <code>jdbc/<%= ConfigServlet.web_app %>CNF</code> o <code>jdbc/<%= ConfigServlet.web_app %>CCC</code> non configurato; stored procedure <code>dashboard.Dissuasion_*</code> mancante o non eseguibile dall'utente DB.
+			</div>
+		</td>
+	</tr>
+</table>
+<%
 	} finally {
 		try { rsCnf.close(); } catch (Exception e) {}
 		try { cstmtCnf.close(); } catch (Exception e) {}
