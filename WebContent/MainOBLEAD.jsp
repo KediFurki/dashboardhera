@@ -24,6 +24,10 @@
 	log.info(session.getId() + " - ******* new request ***** ");
 	//==	REQUEST PARAMETERS	====
 	//==============================
+	boolean oblead_bck = false;
+	try {
+		oblead_bck = (boolean) session.getAttribute("OBLEAD-BCK");
+	} catch (Exception ex) {}
 %>
 <body>
 	<table style="width: 100%; top: -3px">
@@ -34,7 +38,12 @@
 						<td style="width: 70%">
 							<table class="left">
 								<tr>
+<%	if (!oblead_bck) { %>
 									<td><a class="green" id="OutboundListLeadGlobal" href="OutboundListLeadGlobal.jsp" target="_MainIframe">Lista Lead OutBound</a></td>
+<%	} %>
+<%	if (oblead_bck) { %>
+									<td><a class="green" id="OutboundListBckGlobal" href="OutboundListBckGlobal.jsp" target="_MainIframe">Lista Lead OutBound Backoffice</a></td>
+<%	} %>
 								</tr>
 							</table>
 						</td>
@@ -58,7 +67,7 @@
 		</tr>
 		<tr>
 			<td>
-				<iframe src="ServiceGlobal.jsp" id="MainIframe" name="_MainIframe" style="width: 100%; border: 0 solid grey"></iframe>
+				<iframe src="<%= oblead_bck ? "OutboundListBckGlobal.jsp" : "OutboundListLeadGlobal.jsp" %>" id="MainIframe" name="_MainIframe" style="width: 100%; border: 0 solid grey"></iframe>
 			</td>
 		</tr>
 		<tr>
@@ -91,6 +100,7 @@
 
 		ChangeActiveMenu = function(menu) {
 			$("#OutboundListLeadGlobal").removeClass("active");
+			$("#OutboundListBckGlobal").removeClass("active");
 			$(menu).addClass("active");
 			$("#Footer").css('display', 'none');
 		}

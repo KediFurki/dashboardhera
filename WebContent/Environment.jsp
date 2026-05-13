@@ -100,6 +100,13 @@
 		case "OUTBOUNDLEAD":
 			session.setAttribute("DBSystemProperties", "CCC");
 			session.setAttribute("Environment", "CCC");
+			session.setAttribute("OBLEAD-BCK", false);
+			response.sendRedirect("MainOBLEAD.jsp");
+			break;
+		case "OUTBOUNDLEAD-BCK":
+			session.setAttribute("DBSystemProperties", "CCC");
+			session.setAttribute("Environment", "CCC");
+			session.setAttribute("OBLEAD-BCK", true);
 			response.sendRedirect("MainOBLEAD.jsp");
 			break;
 
